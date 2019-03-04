@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>iscroll实现下拉加载和加载更多</title>
+    <script src="iscroll-probe.js" charset="utf-8"></script>
+    <script src="jquery.js" charset="utf-8"></script>
+    <style media="screen">
+        * {
+            margin: 0;
+        }
+        .parent {
+            width: 80%;
+            margin: 2rem auto;
+            height: 400px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #999;
+        }
+        .parent .child {
+            overflow: hidden;
+            position: relative;
+            background: #fff;
+            padding: 1rem;
+            z-index: 99;
+        }
+        .parent .dropdown , .parent .loadmore{
+            position: absolute;
+            text-align: center;
+            line-height: 2rem;
+            width: 100%;
+            left: 0;
+        }
+        .parent .dropdown {
+            top: 0;
+        }
+        .parent .loadmore {
+            bottom: 0;
+        }
+        .img {
+            width:97px;
+            height:97px;
+            background:url(1.png) no-repeat;
+            background-position:0 0;
+            position:absolute;
+            left: 0;
+            /*left:50%;*/
+            /*transform: translateX(-46px);*/
+            top:0;
+            z-index: 999;
+        }
+    </style>
+    <script>
+        const newData = '诗[1]  ·小雅·大东》：“西人之子，粲粲衣服。”\n' +
+            '《史记·赵世家》：“法度制令各顺其宜，衣服器械各便其用。”\n' +
+            '宋 陆游 《老学庵笔记》卷二：“ 靖康 初，京师织帛及妇人首饰衣服，皆备四时。”\n' +
+            '巴金 《灭亡》第一章：“街中聚集了一大群人，有着各样的身材，各样的衣服。”\n' +
+            '2.借指形体，身躯。\n' +
+            '宋苏轼 《答钱济明书》之二：“小人能害其衣服尔，至於其不可坏者，乃当缘厄而愈胜尔。”\n' +
+            '3、穿衣服；使穿衣服。\n' +
+            '《礼记·[2]  文王世子》：“﹝文王﹞鸡初鸣而衣服至於寝门外，问内竖之御者曰：‘﹝ 王季 ﹞今日安否何如？’”\n' +
+            '宋 苏轼 《天篆记》：“ 江 淮 间俗尚鬼，岁正月必衣服箕箒为 子姑 ，或能数数画字。”[3]\n' +
+            '4、而今时尚的衣服那是令人眼花缭乱，不同的地区、不同的人群，各有各的观点，各有各的眼光，这也许是主观可的客观。\n' +
+            '衣服种类编辑\n' +
+            '【主要分3大种】上衣、裤子，长袍\n' +
+            '上衣包括[4]  ：毛衣、衬衣、半袖、外套、羽绒服、西服、胸罩、裘皮、马夹、T恤、背心等。\n' +
+            '裤子包括：短裤、裤衩、内裤、长裤、西裤、背带裤、牛仔裤等。\n' +
+            '长袍包括：短裙，长裙，连身装，母子装，袍子等\n' +
+            '解读词条背后的知识\n' +
+            '\n' +
+            '军武 《军武次位面》官方账号\n' +
+            '\n' +
+            '戎装亦可为美裳——战争如何改变了我们的日常穿戴？\n' +
+            '\n' +
+            '战争虽然充满了残酷和血腥，但是在很多时候，战火硝烟也改变了人们对美的追求与认知。譬如说在我们日常生活中的服饰领域，就留下了很多人类历史上征战挞伐的印迹。那么都有哪些绣夹罗绮浸渍着浴血的传奇，又都有哪些正襟常服流露着战争的辛酸？我们不妨打开历史的衣柜，去看看战争是怎样的装扮了...\n'
+        window.onload = function () {
+            const oParent = document.querySelector('.parent'),
+                oChild = document.querySelector('.child'),
+                oDropdown = document.querySelector('.dropdown'),
+                oLoadmore = document.querySelector('.loadmore');
+                oImg = document.querySelector('.img');
+            // 给需要滚动的元素的父元素添加scroll，只能滚动父元素里面的第一个元素。
+           // .parent 不能直接传元素。。。
+            const scroll = new IScroll('.parent', {
+                scrollY: true,
+                probeType: 3,
+                disableMouse: true,
+                disableTouch: false,
+                disablePointer: true,
+            });
+            scroll.on('scroll', () => {
+                // 序列加载,就是移动背景图片。
+                let frame=Math.floor(scroll.y/10);
+
+                if(frame>=15){
+                    frame=14;
+                }
+
+                oImg.style.backgroundPosition=`-${97*(frame%5)}px -${Math.floor(frame/5)*97}px`;
+                // 下拉刷新
+                if(scroll.y >= 50) {
+                    oDropdown.innerHTML = '松手加载'
+                } else {
+                    oDropdown.innerHTML = '下拉加载'
+                }
+                // 上拉加载
+                if(-scroll.y - (oChild.offsetHeight - oParent.offsetHeight) >= 50) {
+                    oLoadmore.innerHTML = '松手加载'
+                } else {
+                    oLoadmore.innerHTML = '加载更多'
+                }
+            });
+            oParent.addEventListener('touchend', function (){
+                // 松开手指后的行为
+                if (scroll.y > 50) {
+                    // 当下拉的距离大于50，就是要跟新了
+                    // 先把ochild 移动到只能看到加载框的位置。
+                    scroll.disable();
+                    oChild.style.transition = `.6s all ease`;
+                    oChild.style.transform = `translateY(${oDropdown.offsetHeight}px)`;
+                    oDropdown.innerHTML = `<img height="2rem" src="loading.gif">加载中...`;
+                    // 加载的没有写
+                    setTimeout(() => {
+                        // 获取到数据后，ochild移动到0的位置，然后移除
+                        oChild.innerHTML = newData;
+                        oChild.style.transform = `translateY(0px)`;
+                        function fn2 () {
+                            oChild.style.transition = 'none';
+                            // transitionend的监听事件要删除了。
+                            oChild.removeEventListener('transitionend', fn2, false);
+                            // 把scroll恢复到最上面，然后开启scroll
+                            scroll.y = 0;
+                            scroll.enable();
+                        }
+                        oChild.addEventListener('transitionend', fn2, false);
+                    }, 3000)
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<div class="parent">
+    <div class="child">
+        <p>
+            iScroll对于我来讲典型的应用场景位于移动设备的App，基于Cordova/Phonegap + JQM + iScroll开发移动设备上的App，
+            对于以数据呈现为主体的企业应用来讲无疑是一个多快好省的解决方案。这三驾马车前两个可以堂而皇之的称之为开发框架，
+            iScroll只能称之为工具，尽管如此，iScroll带来的强大的滚动功能，能节省我们在项目开发上的部分时间（这也是开源社区的力量），
+            所以也值得我花时间理解作者的代码和文档。如果您认同这种功劳苦劳，请到github上给我一个star。
+            由于才疏学浅，在翻译过程中难免会有错误或者瑕疵，请在issure中提出，我会及时更正。
+            下面，我们开始iScroll之旅，请系好安全带。
+        </p>
+        <p>
+            iScroll是一个高性能，资源占用少，无依赖，多平台的javascript滚动插件。
+            它可以在桌面，移动设备和智能电视平台上工作。它一直在大力优化性能和文件大小以便在新旧设备上提供最顺畅的体验。
+            iScroll不仅仅是 滚动。它可以处理任何需要与用户进行移动交互的元素。在你的项目中包含仅仅4kb大小的iScroll，
+            你的项目便拥有了滚动，缩放，平移，无限滚动，视差滚动，旋转功能。给它一个扫帚它甚至能帮你打扫办公室。
+            即使平台本身提供的滚动已经很不错，iScroll可以在此基础上提供更多不可思议的功能。具体来说：
+            细粒度控制滚动位置，甚至在滚动过程中。你总是可以获取和设置滚动器的x，y坐标。
+            动画可以使用用户自定义的擦出功能（反弹'bounce'，弹性'elastic'，回退'back'，...）。
+            你可以很容易的挂靠大量的自定义事件（onBeforeScrollStart, *
+            开箱即用的多平台支持。从很老的安卓设备到最新的iPhone，从Chrome浏览器到IE浏览器。
+        </p>
+    </div>
+    <div class="img"></div>
+    <div class="dropdown">下拉加载</div>
+    <div class="loadmore">加载更多</div>
+</div>
+</body>
+</html>

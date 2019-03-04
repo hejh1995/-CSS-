@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3-形状</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <section>
+        <h2>自适应的椭圆</h2>
+        <div class="div ellipse"></div>
+        <p>border-radius: 50%;</p>
+        <div class="div half-ellipse"></div>
+        <p>border-radius: 100% 0 0 100% / 50%;</p>
+        <p> / 前面的是水平半径，后面的是垂直半径</p>
+        <div class="div quarter-ellipse"></div>
+        <p>border-radius: 100% 0 0 0;</p>
+    </section>
+    <section>
+        <h2>平行四边形</h2>
+        <a class="btn">倾斜按钮</a>
+        <p>transform: skew(-45deg);有倾斜的作用，但是会让整个元素都倾斜，所以在该元素上添加一个伪元素，设置z-index为-1，让它一直处于底层</p>
+        <p>这个伪元素设置为相对宿主元素绝对定位，top，right，bottom，left 都为0</p>
+    </section>
+    <section>
+        <h2>菱形图片</h2>
+        <div class="diamond-clip">
+            <img src="images/1.png" alt="一个图片">
+        </div>
+    </section>
+    <section>
+        <h2>切角效果</h2>
+        <div class="bevel-corners">
+            <p>四张图片拼接成的</p>
+            <P>background: linear-gradient(135deg, transparent 15px, #e6acda 0) top left,<br>
+                linear-gradient(-135deg, transparent 15px, #e6acda 0) top right,<br>
+                linear-gradient(-45deg, transparent 15px, #e6acda 0) bottom right,<br>
+                linear-gradient(45deg, transparent 15px, #e6acda 0) bottom left;<br>
+                background-repeat: no-repeat;<br>
+                background-size: 50% 50%;
+            </P>
+        </div>
+        <div class="scoop-corners">
+            <p>四张图片拼接成的</p>
+            <P>background: radial-gradient(circle at top left, transparent 15px, #e6acda 0) top left,
+                radial-gradient(circle at top right, transparent 15px, #e6acda 0) top right,
+                radial-gradient(circle at bottom right, transparent 15px, #e6acda 0) bottom right,
+                radial-gradient(circle at bottom left, transparent 15px, #e6acda 0) bottom left;
+                background-repeat: no-repeat;
+                background-size: 50% 50%;
+            </P>
+            <p>circle at top left 指定圆心的位置</p>
+        </div>
+        <div class="bevel-corners2">
+            <p>使用svg 实现</p>
+            <p></p>
+        </div>
+        <div class="bevel-corners3">
+            <pre>clip-path: polygon(20px 0,
+    calc(100% - 20px) 0,
+    100% 20px,
+    100% calc(100% - 20px),
+    calc(100% - 20px) 100%,
+    20px 100%,
+    0 calc(100% - 20px),
+    0 20px );</pre>
+            <p>使用clip-path 实现。一个点一个点连接起来剪切</p>
+            <p>最大的好处在于，我们可以使用任意类型的背景，甚至是图片。但当内边距不够宽时，它会裁切掉文本</p>
+        </div>
+    </section>
+    <section>
+        <h2>梯形标签页</h2>
+        <nav class="nav">
+            <a>home</a>
+            <a class="active">projects</a>
+            <a>about</a>
+        </nav>
+    </section>
+    <section>
+        <h2>简单的饼图</h2>
+        <div></div>
+    </section>
+</body>
+</html>

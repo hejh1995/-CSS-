@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>物体浮动起来</title>
+    <style media="screen">
+        div {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            const odiv = Array.from(document.getElementsByTagName('div'));
+            const old_position = odiv.map(item => {
+                return {
+                    left : item.offsetLeft,
+                    top: item.offsetTop
+                }
+            });
+            document.addEventListener('mousemove', ev => {
+                console.log(ev.offsetX, ev.clientX);
+                odiv.forEach((item, index) => {
+                    let zIndex = item.style.zIndex/50;
+                    item.style.left = old_position[index].left + ev.clientX * zIndex + 'px';
+                    item.style.top = old_position[index].top + ev.clientY * zIndex + 'px';
+                })
+            });
+        }
+    </script>
+</head>
+<body>
+<div style="width: 80%">越近的——层级越高 走的越多 .越远——走的越少。类似这个网站的浮动效果。http://www.jp.playstation.com/scej/title/gravitydaze/2/</div>
+<div style="left: 400px; top: 100px; background: antiquewhite; z-index: 1;"></div>
+<div style="left: 50px; top: 220px; background: #fab2fa; z-index: 2;"></div>
+<div style="left: 10px; top: 100px; background: #72fa3a; z-index: 3;"></div>
+<div style="left: 100px; top: 180px; background: #34a3fa; z-index: 4;"></div>
+<div style="left: 300px; top: 300px; background: #fa7e43; z-index: 5;"></div>
+
+</body>
+</html>

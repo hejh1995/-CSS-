@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>1-css编码技巧</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <section>
+        <h2>尽量减少代码重复</h2>
+        <div class="fatherok"><button class="btn ok">ok</button></div>
+        <div class="fathercancel"><button class="btn cancel">cancel</button></div>
+        <ul>
+            <li>内部元素需要等比例放大的值，都设置为*em，会按照父元素的font-size的大小变化，通过父元素的font-size 控制按钮的大小</li>
+            <li>margin: 20px; margin-left: 0; 这种写法比 margin: 0 10px 10px 10px 好</li>
+            <li>inhert 可以用在任何css属性中，而它总是绑定父元素的计算值，对于伪元素来说，则会取生成该伪元素的宿主元素。使用nihert 可以减少代码的重复，需要修改时，修改的地方会少一点</li>
+        </ul>
+    </section>
+    <section>
+        <h2>关于响应式网页设计</h2>
+        <ul>
+            <li>你添加的媒体查询越多，你的css代码就会变得越来越经不起折腾</li>
+            <li>媒体查询应该作为最后的手段，或者在较大较小的窗口下完全改变网站的设计形状</li>
+            <li>尽最大努力实现弹性可伸缩的布局</li>
+        </ul>
+    </section>
+    <section>
+        <h2>合理使用简写</h2>
+        <ul>
+            <li>展开式写法并不会帮助你清空所有相关的其他属性，可能会干扰你想要的效果</li>
+            <li>可以把重复的值从简写里面抽出来写成一个</li>
+        </ul>
+    </section>
+</body>
+</html>

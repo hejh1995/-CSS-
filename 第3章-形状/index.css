@@ -1,0 +1,116 @@
+section {
+    border-bottom: 2px solid yellow;
+    padding-bottom: 10px;
+}
+.div {
+    width: 250px;
+    height: 100px;
+    background: #e6acda;
+}
+.ellipse {
+    border-radius: 50%;
+}
+.half-ellipse {
+    border-radius: 100% 0 0 100% / 50%;
+}
+.quarter-ellipse {
+    border-radius: 100% 0 0 0;
+}
+.btn {
+    position: relative;
+    color: white;
+    padding: 10px 20px;
+}
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    background: #fa91ba;
+    transform: skew(-45deg);
+}
+.diamond-clip {
+    width: 400px;
+}
+img {
+    clip-path: polygon(50% 0, 100% 50%,50% 100%, 0 50%);
+}
+.bevel-corners {
+    padding: 20px;
+    color: white;
+    /*为了兼容性*/
+    background: #e6acda;
+    background: linear-gradient(135deg, transparent 15px, #e6acda 0) top left,
+    linear-gradient(-135deg, transparent 15px, #e6acda 0) top right,
+    linear-gradient(-45deg, transparent 15px, #e6acda 0) bottom right,
+    linear-gradient(45deg, transparent 15px, #e6acda 0) bottom left;
+    background-repeat: no-repeat;
+    background-size: 50% 50%;
+}
+.scoop-corners {
+    margin-top: 20px;
+    padding: 20px;
+    color: white;
+    /*为了兼容性*/
+    background: #e6acda;
+    background: radial-gradient(circle at top left, transparent 15px, #e6acda 0) top left,
+    radial-gradient(circle at top right, transparent 15px, #e6acda 0) top right,
+    radial-gradient(circle at bottom right, transparent 15px, #e6acda 0) bottom right,
+    radial-gradient(circle at bottom left, transparent 15px, #e6acda 0) bottom left;
+    background-repeat: no-repeat;
+    background-size: 50% 50%;
+}
+.bevel-corners2 {
+    margin-top: 20px;
+    color: white;
+    /*回退机制*/
+    border: 20px solid #e6acda;
+    /*1 切片尺寸，所对应的是svg文件的坐标系统，因此也不需要单位*/
+    border-image: 1 url('data:image/svg+xml,\
+    <svg xmlns="http://www.w3.org/2000/svg"\
+    width="3" height="3" fill="%23e6acda">\
+    <polygon points="0,1 1,0 2,0 3,1 3,2 2,3 1,3 0,2"/>\
+    </svg>');
+    background: #e6acda;
+    background-clip: padding-box;
+}
+.bevel-corners3 {
+    margin-top: 20px;
+    background-image: url("images/1.png");
+    clip-path: polygon(20px 0,
+    calc(100% - 20px) 0,
+    100% 20px,
+    100% calc(100% - 20px),
+    calc(100% - 20px) 100%,
+    20px 100%,
+    0 calc(100% - 20px),
+    0 20px );
+    padding: 20px;
+}
+.nav > a {
+    position: relative;
+    display: inline-block;
+    padding: .3em 1em 0;
+}
+.nav > a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    background: #fab2fa;
+    background-image: linear-gradient(hsla(0,0%,100%,.6),hsla(0,0%,100%,0));
+    border: 1px solid rgba(0,0,0,.4);
+    border-radius: .5em .5em 0 0;
+    box-shadow: 0 .15em white inset;
+    transform: perspective(.5em) rotateX(5deg);
+    transform-origin: bottom;
+}
+.active::before{
+    border-bottom: none!important;
+}

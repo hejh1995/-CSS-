@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>滑动删除-用hammer-pan实现</title>
+    <script src="hammer.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        #sms-list {
+            width: 80%;
+            margin: 1rem auto;
+            overflow: hidden;
+        }
+        #sms-list li {
+            width: 100%;
+            border-bottom: 1px solid #333;
+            line-height: 3rem;
+            height: 3rem;
+            position: relative;
+            /*overflow: hidden;*/
+            transition: .6s all ease;
+            background: #fff;
+        }
+        #sms-list li .delete {
+            width: 0;
+            position: absolute;
+            top: 0;
+            right: 0;
+            overflow: hidden;
+            color: #fff;
+            background: #F00;
+            height: 100%;
+            line-height: 3rem;
+            text-align: center;
+            transition: .6s all ease;
+        }
+        #sms-list li .delete span {
+            width: 80px;
+            display: inline-block;
+        }
+        .sms {width:300px; height:400px; border:1px solid black; margin:50px auto 0; overflow:hidden; position:relative;}
+        /*#sms-list {width:300px; background:#FFF; position:relative; z-index: 999; overflow:hidden;}*/
+    </style>
+    <script>
+        window.onload = function () {
+            const list = [
+                'asdfsdfbxf多个人头是让他',
+                'sdydthdfghfghdfg',
+                'asdfsdfbxf多个人头是让他',
+                'fhdfghdtfyu',
+                'asdfsdfbxf多个人头是让他',
+                'vnmvnmbnm',
+                'asdfsdfbxf多个人头是让他',
+                'asdfsdfbxf多个人头是让他',
+                'sdydthdfghfghdfg',
+                'asdfsdfbxf多个人头是让他',
+                'fhdfghdtfyu',
+                'asdfsdfbxf多个人头是让他',
+                'vnmvnmbnm',
+                'asdfsdfbxf多个人头是让他',
+                'asdfsdfbxf多个人头是让他',
+                'sdydthdfghfghdfg',
+                'asdfsdfbxf多个人头是让他',
+                'fhdfghdtfyu',
+                'asdfsdfbxf多个人头是让他',
+                'vnmvnmbnm',
+                'asdfsdfbxf多个人头是让他',
+                'asdfsdfbxf多个人头是让他',
+                'sdydthdfghfghdfg',
+                'asdfsdfbxf多个人头是让他',
+                'fhdfghdtfyu',
+                'asdfsdfbxf多个人头是让他',
+                'vnmvnmbnm',
+                'asdfsdfbxf多个人头是让他',
+                'asdfsdfbxf多个人头是让他',
+                'sdydthdfghfghdfg',
+                'asdfsdfbxf多个人头是让他',
+                'fhdfghdtfyu',
+                'asdfsdfbxf多个人头是让他',
+                'vnmvnmbnm',
+                'asdfsdfbxf多个人头是让他',
+            ];
+            const oUl = document.querySelector('#sms-list');
+            const oParent = document.querySelector('.sms');
+            const oDelete = document.getElementsByClassName('delete');
+            list.forEach(txt => {
+                let oLi=document.createElement('li');
+                oLi.innerHTML=`<span>${txt}</span><a href="javascript:;" class="delete"><span>删除</span></a>`;
+                oUl.appendChild(oLi);
+                //
+                let hammer=new Hammer(oLi);
+                let oBtnDel=oLi.getElementsByTagName('a')[0];
+                let dir = '',
+                    start_x,
+                    start_y,
+                    delw = 0,
+                    old_delw;
+                let delwy = 0,
+                    old_delwy;
+                hammer.on('panstart', ev => {
+                    start_x = ev.center.x;
+                    start_y = ev.center.y;
+                    old_delw = delw;
+                    old_delwy = delwy;
+                });
+                hammer.on('panmove', ev => {
+                    if (dir == '') {
+                        if (Math.abs(ev.center.x - start_x) >= 5) dir = 'x';
+                        else if (Math.abs(ev.center.y - start_y) >= 5) dir = 'y';
+                    } else if (dir == 'x') {
+                        delw = old_delw - ev.center.x + start_x;
+                        if (delw > 80) {
+                            delw = 80 + (delw-80) /6;
+                        }
+                        // console.log(delw);
+                        oBtnDel.style.width = `${delw}px`;
+                    } else {
+                        // 纵向滚动
+                        // 有的时候会触发不了。。。
+                        console.log('yyyyyy');
+                        delwy = old_delwy - ev.center.y + start_y;
+                        console.log(delwy);
+                        // oUl.style.transition = `.6s all ease`;
+                        oUl.style.transform = `transitonY(${delwy}px)`;
+                    }
+                });
+                hammer.on('panend', ev => {
+                    if (delw > 60) {
+                        delw = 80;
+                    } else {
+                        delw = 0;
+                    }
+                    oBtnDel.style.transition = `.6s all ease`;
+                    oBtnDel.style.width = `${delw}px`;
+                });
+                oBtnDel.onclick=function (){
+                    oBtnDel.style.width='0px';
+                    function fn (ev) {
+                        oLi.style.height='0px';
+                        oLi.style.borderBottom='0px solid #333';
+                        console.log('2222');
+                        ev.cancelBubble=true;
+                        oBtnDel.removeEventListener('transitionend', fn, false);
+                        function fn2() {
+                            oUl.removeChild(oLi);
+                            oLi.removeEventListener('transitionend', fn2);
+                        }
+                        oLi.addEventListener('transitionend', fn2);
+                    }
+                    oBtnDel.addEventListener('transitionend', fn, false);
+                };
+            })
+        }
+    </script>
+</head>
+<body>
+<div class="sms">
+    <ul id="sms-list"></ul>
+</div>
+</body>
+</html>

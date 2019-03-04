@@ -1,0 +1,185 @@
+.bounce {
+    min-height: 500px;
+    padding: 10px;
+    background: linear-gradient(skyblue, white 450px, yellowgreen 0);
+}
+@keyframes bounce {
+    60%,80%,to {
+        transform: translateY(400px);
+        animation-timing-function: ease;
+    }
+    70% {
+        transform: translateY(300px);
+    }
+    90% {
+        transform: translateY(360PX);
+    }
+}
+.ball {
+    width: 0;
+    height: 0;
+    padding: 1.5em;
+    border-radius: 50%;
+    margin: auto;
+    background: red radial-gradient(at 30% 30%, #fdd, red);
+    animation: bounce 2s cubic-bezier(.1,.25,1,.25) forwards;
+}
+
+.elastic-input {
+    display: block;
+    padding:.4em;
+    margin-top: 10px;
+    font: inherit;
+}
+.callout {
+    position: absolute;
+    max-width: 14em;
+    padding: .6em .8em;
+    border-radius: .3em;
+    margin: .3em 0 0 -.2em;
+    background: #fed;
+    border: 1px solid rgba(0,0,0,.3);
+    box-shadow: .05em .2em .6em rgba(0,0,0,.2);
+    font-size: 75%;
+}
+.callout:before {
+    content: '';
+    position: absolute;
+    top: -.4em;
+    left: 1em;
+    padding: .35em;
+    background: inherit;
+    border: inherit;
+    border-right: 0;
+    border-bottom: 0;
+    transform: rotate(45deg);
+}
+.elastic-input:not(:focus) + .callout:not(:hover) {
+    transform: scale(0);
+    transition: .25s transform;
+}
+.callout {
+    transition: .5s cubic-bezier(.25,.1,.3,1.5) transform;
+    transform-origin: 1.4em -.4em;
+}
+@keyframes loader {
+    to {
+        background-position: -800px 0;
+    }
+}
+.loader {
+    width: 100px;
+    height: 100px;
+    text-indent: 999px;
+    overflow: hidden;
+    background: url(http://dabblet.com/img/loader.png) 0 0;
+    animation: loader 1s infinite steps(8);
+}
+.blink-smooth1,.blink-smooth2,.blink-smooth3 {
+    padding: 1em;
+    background: gold;
+}
+@keyframes blink1 {
+    50% {
+        color: transparent;
+    }
+}
+@keyframes blink2 {
+    to {
+        color: transparent;
+    }
+}
+.blink-smooth1 {
+    animation: 1s blink1 3;
+}
+.blink-smooth2 {
+    animation: .5s blink2 6;
+    animation-direction: alternate;
+}
+.blink-smooth3 {
+    animation: 1s blink1 3 steps(1);
+}
+@keyframes typing{
+    from {
+        width: 0
+    }
+}
+@keyframes caret {
+    50% {
+        border-right-color: transparent;
+    }
+}
+.typing {
+    font: bold 100% Consolas;
+    width: 15ch;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: .05em solid;
+    animation: typing 8s steps(15),caret 1s steps(1) infinite;
+}
+@keyframes panoramic {
+    to {
+        background-position: 100% 0;
+    }
+}
+.panoramic {
+    width: 150px;
+    height: 150px;
+    background: url("images/1.png");
+    background-size:auto 100%;
+    animation: panoramic 10s linear infinite alternate;
+    animation-play-state: paused;
+}
+.panoramic:hover, .panoramic:focus {
+    animation-play-state: running;
+}
+.path {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: #fb3;
+}
+.avator {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+}
+@keyframes spin {
+    to {
+        transform: rotate(1turn);
+    }
+}
+.avator1 {
+    animation: spin 3s infinite linear;
+    transform-origin: 50% 150px;
+}
+.avator1 > img {
+    display: block;
+    width: inherit;
+    height: inherit;
+    animation: inherit;
+    animation-direction: reverse;
+}
+@keyframes spin1 {
+    from {
+        transform: rotate(0turn)
+        translateY(-150px) translateY(50%)
+        rotate(1turn)
+    }
+    to {
+        transform: rotate(1turn)
+        translateY(-150px) translateY(50%)
+        rotate(0turn);
+    }
+}
+
+.avator2 {
+    display: block;
+    position: absolute;
+    top: calc(50% - 25px);
+    left: calc(50% - 25px);
+    animation: spin1 3s infinite linear;
+}

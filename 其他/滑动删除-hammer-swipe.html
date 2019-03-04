@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>滑动删除</title>
+    <script src="hammer.js" charset="utf-8"></script>
+    <script src="iscroll-probe.js" charset="utf-8"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        #sms-list {
+            width: 80%;
+            margin: 1rem auto;
+            overflow: hidden;
+        }
+        #sms-list li {
+            width: 100%;
+            border-bottom: 1px solid #333;
+            line-height: 3rem;
+            height: 3rem;
+            position: relative;
+            /*overflow: hidden;*/
+            transition: .6s all ease;
+            background: #fff;
+        }
+        #sms-list li .delete {
+            width: 0;
+            position: absolute;
+            top: 0;
+            right: 0;
+            overflow: hidden;
+            color: #fff;
+            background: #F00;
+            height: 100%;
+            line-height: 3rem;
+            text-align: center;
+            transition: .6s all ease;
+        }
+        #sms-list li .delete span {
+            width: 8rem;
+            display: inline-block;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            const list = [
+                '11111111111111',
+                '2222222222222',
+                '333333333333',
+                '444444444444',
+                '555555555555',
+                '666666666666',
+                '11111111111111',
+                '2222222222222',
+                '333333333333',
+                '444444444444',
+                '555555555555',
+                '666666666666',
+                '11111111111111',
+                '2222222222222',
+                '333333333333',
+                '444444444444',
+                '555555555555',
+                '666666666666',
+                '11111111111111',
+                '2222222222222',
+                '333333333333',
+                '444444444444',
+                '555555555555',
+                '666666666666'
+            ];
+            const oUl = document.querySelector('#sms-list');
+            const oParent = document.querySelector('.sms');
+            const oDelete = document.getElementsByClassName('delete');
+
+            list.forEach(item => {
+                const oLi = document.createElement('li');
+                oLi.innerHTML = `<span>${item}</span><a class="delete"><span>删除</span></a>`;
+                oUl.appendChild(oLi);
+                const liDelte = oLi.querySelector('.delete');
+
+                const hammer = new Hammer(oLi);
+
+                hammer.on('swipeleft', () => {
+                    Array.from(oDelete).forEach(item => {
+                        item.style.width = 0;
+                    });
+                    liDelte.style.width = '8rem';
+                });
+                hammer.on('swiperight', () => {
+                    liDelte.style.width = '0';
+                });
+                liDelte.addEventListener('click', ev => {
+                    liDelte.style.width = '0';
+                    liDelte.addEventListener('transitionend', ev => {
+                        oLi.style.height = '0';
+                        oLi.style.borderBottom = '0px solid #333';
+                        //阻止事件冒泡
+                        // 标准浏览器有效 IE不行
+                        //ev.stopPropagation();
+                        //没有兼容性问题阻止事件冒泡
+                        ev.cancelBubble=true;
+                        oLi.addEventListener('transitionend', () => {
+                            console.log(oLi.parentNode);
+                            // oLi.parentNode.removeChild(oLi)
+                            oUl.removeChild(oLi);
+                    });
+                    })
+                })
+            })
+
+        }
+    </script>
+</head>
+<body>
+    <ul id="sms-list"></ul>
+</body>
+</html>

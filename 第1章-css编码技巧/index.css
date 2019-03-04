@@ -1,0 +1,25 @@
+.btn {
+    border: 1px solid rgba(0,0,0,.1);
+    color: white;
+    font-size: 125%;
+    line-height: 1.5;
+    text-shadow: 0 -.05em .05em rgba(0,0,0,.5);
+    padding: .3em 1.2em;
+    border-radius: .2em;
+    box-shadow: 0 .05em .25em rgba(0,0,0,0.5);
+    background: #58a linear-gradient(hsla(0,0%,100%, .2), transparent);
+}
+.ok {
+    background-color: #6b0;
+}
+.fatherok {
+    font-size: 20px;
+}
+.cancel {
+    background-color: red;
+}
+.fathercancel {
+    margin: 20px;
+    margin-left: 0;
+    font-size: 20px;
+}

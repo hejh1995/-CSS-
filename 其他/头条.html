@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>头条</title>
+    <script src="hammer.js" charset="utf-8"></script>
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .nav ul {
+            display: flex;
+            width: 800px;
+            text-align: center;
+            background: #FFFFFF;
+            z-index: 99;
+        }
+        .nav ul li {
+            width: 80px;
+            border: 1px solid #000;
+            /*transition: .6s all ease; 因为颜色也是数字的，所以可以用transition实现渐变*/
+            transition: .6s all ease;
+        }
+        .active {
+            color: #f00;
+        }
+        .content {
+            display: flex;
+        }
+        .content-item {
+            min-width: 100vw;
+            height: 500px;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            const oUl = document.querySelector('.nav ul');
+            const oLis = Array.from(oUl.children);
+            const content = document.querySelector('.content');
+            const contents = content.children;
+            let translatex = 0, translatey = 0;
+
+            content.style.width = contents[0].offsetWidth * (contents.length - 1) + 'px';
+            // console.log(contents[0].offsetWidth, contents.length);
+            function goto (n) {
+                // console.log(n);
+                oLis.forEach(li => li.className = '');
+                oLis[n].className = 'active';
+                let left = oLis[n].offsetLeft - (document.documentElement.clientWidth - oLis[n].offsetWidth)/2
+                console.log('left', left);
+                if (left < 0) left = 0;
+                else if (left > oUl.offsetWidth - document.documentElement.clientWidth) {
+                    left = oUl.offsetWidth - document.documentElement.clientWidth;
+                }
+                oUl.style.transition = `.6s all ease`;
+                oUl.style.transform = `translateX(-${left}px)`;
+
+                const left2 = n * contents[0].offsetWidth;
+                console.log('left2', left2, contents[0].offsetWidth);
+                content.style.transition = '.6s all ease';
+                content.style.transform = `translateX(-${left2}px)`;
+
+                function  funend() {
+                    oUl.style.transition = 'none';
+                    content.style.transition = 'none';
+                    oUl.removeEventListener('transitionend', funend, false);
+                }
+                oUl.addEventListener('transitionend', funend, false);
+            }
+            oLis.forEach((li, index) => {
+                li.setAttribute('data-index', index);
+            });
+            oUl.addEventListener('touchstart', ev => {
+                console.log(ev.originalTarget.getAttribute('data-index'));
+                const index = ev.originalTarget.getAttribute('data-index');
+                translatex = -index * contents[0].offsetWidth;
+                goto(index)
+            });
+            // 内容区域可滑动。
+            const hammer = new Hammer(content);
+            let start_x, start_y,old_translatex,dir='', old_translatey;
+
+            hammer.on('panstart', ev => {
+                start_x = ev.center.x;
+                start_y = ev.center.y;
+                old_translatex = translatex;
+                old_translatey = translatey;
+            });
+            hammer.on('panmove', ev => {
+                if (dir === '') {
+                    if (Math.abs(ev.center.x - start_x) > 5) dir = 'x';
+                    else if (Math.abs(ev.center.y - start_y) > 5) dir = 'y';
+                } else if (dir === 'x') {
+                    translatex = old_translatex + ev.center.x - start_x;
+                    content.style.transition = `.6s all ease`;
+                    content.style.transform = `translateX(${translatex}px)`;
+                    // 横向滑动
+                } else if (dir === 'y') {
+                    //纵向滑动,这个纵向滚动太不好用了吧，
+                    // translatey = old_translatey + ev.center.y - start_y;
+                    // console.log('translatey', translatey);
+                    // content.style.transition = `.6s all ease`;
+                    // content.style.transform = `translateY(${translatey}px)`;
+                }
+            });
+            hammer.on('panend', ev => {
+                if (translatex > 0) {
+                    translatex = 0;
+                }
+                let contents_index = Math.round(translatex / contents[0].offsetWidth);
+                if (-contents_index >=  contents.length) {
+                    contents_index = 1-contents.length;
+                }
+                translatex = contents_index * contents[0].offsetWidth;
+                // console.log(contents_index, translatex, contents.length);
+                goto(-contents_index);
+            })
+        }
+    </script>
+</head>
+<body>
+<div class="page">
+    <div class="nav">
+        <ul>
+            <li class="active">趣图</li>
+            <li>推荐</li>
+            <li>两会</li>
+            <li>视频</li>
+            <li>段子</li>
+            <li>aaa</li>
+            <li>bbb</li>
+            <li>ccc</li>
+            <li>ddd</li>
+            <li>eee</li>
+            <div class="line"></div>
+        </ul>
+    </div>
+    <div class="wrap">
+        <div class="content">
+            <div class="content-item">
+                <p>touch事件touch是针对触屏手机上的触摸事件。现今大多数触屏手机webkit内核提供了touch事件的监听，让开发者可以获取用户触摸屏幕时的一些信息。
+                其中包括：touchstart,touchmove,touchend,touchcancel 这四个事件
+                touchstart,touchmove,touchend事件可以类比于mousedown，mouseover
+                ，mouseup的触发。
+                touchstart ： 当手指触摸到屏幕会触发；
+                touchmove : 当手指在屏幕上移动时，会触发；
+                touchend : 当手指离开屏幕时，会触发；
+                当然还有一个touchcancel，是在拖动中断时候触发。
+                vh and vw：相对于视口的高度和宽度，而不是父元素的（CSS百分比是相对于包含它的最近的父元素的高度和宽度）。
+
+                1vh 等于1/100的视口高度，1vw 等于1/100的视口宽度。
+
+                比如：浏览器高度900px，宽度为750px, 1 vh = 900px/100 = 9 px，1vw = 750px/100 = 7.5 px。
+
+                很容易实现与同屏幕等高的框：.slide { height: 100vh;}
+                设置一个和屏幕同宽的标题，h1{font-size:100vw}，那标题的字体大小就会自动根据浏览器的宽度进行缩放，以达到字体和viewport大小同步的效果。
+
+                5、vmin and vmax：关于视口高度和宽度两者的最小值或者最大值。
+
+                比如，浏览器的宽度设置为1200px，高度设置为800px， 1vmax = 1200/100px = 12px， 1vmin = 800/100px = 8px。如果宽度设置为600px,高度设置为1080px, 1vmin就等于6px, 1vmax则未10.8px。
+            </p>
+            </div>
+            <div class="content-item">2</div>
+            <div class="content-item">3</div>
+            <div class="content-item">4</div>
+            <div class="content-item">5</div>
+            <div class="content-item">6</div>
+            <div class="content-item">7</div>
+            <div class="content-item">8</div>
+            <div class="content-item">9</div>
+            <div class="content-item">10</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

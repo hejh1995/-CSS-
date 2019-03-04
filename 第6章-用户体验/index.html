@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>6.用户体验</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <section>
+        <h2>1.选用合适的鼠标光标</h2>
+        <button disabled>禁用按钮</button>
+    </section>
+    <section>
+        <h2>2.扩大可点击区域</h2>
+        <button class="hit-area1">使用透明border扩展可点击区域，使用内嵌的box-shadow模拟边框</button>
+        <button class="hit-area2">伪元素可以代替其宿主元素来响应鼠标交互</button>
+        <pre>.hit-area1 {
+    padding: .3em .5em;
+    border: 10px solid transparent;
+    background: pink;
+    background-clip: padding-box;
+    box-shadow:0 0 0 1px black inset;
+    cursor: pointer;
+}
+.hit-area2::before {
+    content: '';
+    position: absolute;
+    top: -10px; right: -10px; bottom: -10px; left: -10px;
+}</pre>
+    </section>
+    <section>
+        <h2>3.自定义复选框</h2>
+        <article>
+            <h3>(1)为复选框设置样式</h3>
+            <input type="checkbox" id="awesome" autofocus />
+            <label for="awesome">autofocus</label>
+            <input type="checkbox" id="awesome2" checked/>
+            <label for="awesome2">checked</label>
+            <input type="checkbox" id="awesome3" disabled>
+            <label for="awesome3">disable</label>
+            <input type="checkbox" id="awesome4" checked disabled>
+            <label for="awesome4">checked disabled</label>
+            <pre>input[type="checkbox"] {
+    position: absolute;
+    /*对于绝对定位的元素，这个属性定义一个剪裁矩形，在矩形内的内容可见。这样可以隐藏元素*/
+    clip: rect(0,0,0,0);
+}
+input[type="checkbox"] + label::before{
+    content: '\a0';
+    display: inline-block;
+    width: .8em; height: .8em; margin-right: .2em; border-radius: .2em; line-height: .65;
+    background: silver;
+    /*用于定义块级元素中第一个内容行的缩进*/
+    text-indent: .15em;
+}
+ :checked 伪类，只有复选框被勾选后匹配
+input[type="checkbox"]:checked + label::before {
+    content: '\2713';
+    background: yellowgreen;
+}</pre>
+        </article>
+        <article>
+            <h3>(2)开关式按钮</h3>
+            <input input type="checkbox" id="awesome5" autofocus />
+            <label for="awesome5">未选中为红色</label>
+            <p>autofocus 属性规定当页面加载时 input 元素应该自动获得焦点。</p>
+        </article>
+    </section>
+    <section class="lightbox-container">
+        <h2>4.通过阴影来弱化背景</h2>
+        <article>
+            <h3>(1)box-shsdow 实现</h3>
+            <img  src="http://csssecrets.io/images/adamcatlace.jpg" class="lightbox">
+            <pre>as a joint research effort in developing the next generation Web-based intelligent systems,
+            Things (IoT) [7, 51] age. The “Wisdom” means that each of things in the Web of Things
+            (WoT) [10, 48] can be aware of both itself and others to provide the right service for the right
+ .lightbox {
+    position: absolute;
+    left: 50%;
+    margin: -200px;
+    box-shadow: 0 0 0 50px rgba(0,0,0,.8);
+} </pre>
+            <pre>使用box-shadow（水平阴影的位置，垂直阴影的位置，模糊距离，阴影尺寸，阴影颜色，inset将外部阴影改为内部阴影），向框添加阴影。
+设置阴影的尺寸，就会向外扩张，此处最合适的单位是视口单位vmax（vm和vh中较大的一个值）。
+100vw等于这个视口的宽度，100vh就是视口的高度
+缺点：只是在视觉上起到作用，无法阻止鼠标事件</pre>
+        </article>
+        <article>
+            <h3>（2）backdrop实现</h3>
+            <button onclick="document.querySelector('#modal').showModal()">点我啊！</button>
+            <dialog id="modal">
+                <pre>使用dialog实现,该元素由它的showModal()方法显示出来，
+根据浏览器的不同自带遮罩层，借助::backdrop伪元素，这个原生的遮罩层也可以设置样式。
+ 浏览器兼容性不是很好哦（谷歌可以，火狐暂时不可以）。
+
+ 全屏元素 是 top layer堆中的一部分， 他们处于其他所有内容的上层。::backdrop 伪元素可用来给下层文档设置样式或隐藏它。
+::backdrop 不继承任何元素同时也不被任何元素继承. 没有规定什么属性不能应用于该伪元素</pre>
+                <button onclick="this.parentNode.close()">关闭</button>
+            </dialog>
+        </article>
+    </section>
+    <section>
+        <h2>5.通过模糊来弱化背景</h2>
+        <main class="deemphasizing-main">
+            <button class="deemphasizing-button">点击我吧！</button>
+            <pre>点击按钮，添加属性open，根据有没有open 判定元素的显示和隐藏。为背景元素添加class（filter: blur(3px);）
+点击模态框，如果模态框关闭了，关闭就可以，没关闭需要移除它的属性open，从而关闭它。然后移除前面添加的背景class。
+$('.deemphasizing-button').onclick = function() {
+    dialog.setAttribute('open', '');
+    main.classList.add('de-emphasized');
+}
+dialog.onclick = function() {
+    if (dialog.close) dialog.close();
+    else dialog.removeAttribute('open');
+    main.classList.remove('de-emphasized');
+}</pre>
+        </main>
+        <dialog class="deemphasizing">sxsxsxsxsxsx</dialog>
+    </section>
+    <section>
+        <h2>6.滚动提示</h2>
+        <ul class="scroll-hints">
+            <li>background-attachment 属性设置背景图像是否固定或者随着页面的其余部分滚动。scroll 滚动，local，当滚动到顶部图片出现，向下滚动就消失了。</li>
+            <li>radial-gradient 形成阴影，随页面滚动。linear-gradient形成遮罩层，只有滚动到底部/底部的时候出现，遮挡阴影，就像没有阴影一样的。</li>
+            <li>遮罩层，从白色到透明，让阴影的显现更平滑。高度50px，也是为了增加平滑度</li>
+            <li>顶部和底部类似，只是方向都是相反的</li>
+            <li>background: linear-gradient(white 15px, hsla(235, 100%, 66%, 0)) 0 0 / 100% 50px,</li>
+            <li>radial-gradient(at top, rgba(0,0,0,.2), transparent 70%) 0 0 /100% 15px,</li>
+            <li>linear-gradient(to top, white 15px, hsla(0,0%,100%,0)) bottom / 100% 50px,</li>
+            <li>radial-gradient(at bottom, rgba(0,0,0,.2),transparent 70%) bottom / 100% 15px;</li>
+            <li>background-repeat: no-repeat;</li>
+            <li> background-attachment: local, scroll, local, scroll;</li>
+        </ul>
+    </section>
+    <section>
+        <h2>7.交互式图片对比控件</h2>
+        <article class="image-slider">
+            <div class="image-slider__before1"><img src="http://csssecrets.io/images/adamcatlace-before.jpg" alt="before"></div>
+            <img src="http://csssecrets.io/images/adamcatlace.jpg">
+        </article>
+        <pre>共有两层图片，上面一层可以水平方向上调整大小，从而显示出下面的图片。
+            resize属性指定一个元素是否是由用户调整大小的。(both 宽高都可调整，horizontal 调整宽度，vertical 调整高度)。只要overflow不是visible，几乎所有的元素resize的默认值为none
+filter:drop-shadow(x轴阴影，y轴阴影，模糊度，扩张/缩小阴影，颜色),给图像设置一个阴影效果。
+            user-select:none,在没有点中调节手柄的情况下拖动鼠标，也不会误选图片。浏览器支持情况不太好哦
+        </pre>
+        <article class="image-slider">
+            <div class="image-slider__before"><img src="images/3.png" alt="before"></div>
+            <img src="images/1.png">
+            <input type="range" value = "50" oninput="changeRange(event)" />
+        </article>
+        <pre>用input range 控制显示图片的宽度，不使用resize</pre>
+    </section>
+<script src="index.js"></script>
+</body>
+</html>

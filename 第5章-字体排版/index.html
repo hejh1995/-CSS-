@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>5.字体排版</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <section>
+        <h2>1.连字符断行</h2>
+        <pre>text-align: justify; // 文本两端对齐
+hyphens: auto; // 自动在断词的地方添加软连字符</pre>
+        <p class="hyphenation">st ct fi ff fl ffi ffl euficneui cnheuichrui chnerui</p>
+    </section>
+    <section>
+        <h2>2.插入换行</h2>f
+        <dl class="line-breaks">
+            <dt>姓名：</dt>
+            <dd>小明</dd>
+            <dt>邮箱：</dt>
+            <dd>122344@qq.com</dd>
+            <dd>1224@163.com</dd>
+            <dt>地址：</dt>
+            <dd>中国</dd>
+        </dl>
+        <pre>
+dt,dd {
+    display: inline; // 在一行显示
+    margin: 0;
+}
+dd + dt::before {  // 在dd后有dt，dt前面加换行符
+    content: '\A'; // 换行符
+    white-space: pre; // 保留源代码中的空白符和换行
+}
+dd + dd::before { // 在两个dd之间加逗号
+    content: ',';
+    margin-left: -.25em; // 空隙的宽度，把逗号前移一点点。如果字体的大小不一，可能空隙宽度就不是0.25em了。
+}
+        </pre>
+    </section>
+    <section>
+        <h2>3.文本行的斑马条纹</h2>
+        <pre><code>
+pre {
+    font-size: 1.3em;
+    line-height: 1.5;
+    background: hsl(20,50%,95%); // 背景色
+    background-image: linear-gradient(rgba(120,0,0,.1) 50%, transparent 0);
+    background-size: auto 3em; // 高度是行高的2倍，调整行高，必须调整这里
+    background-origin: content-box; // 以内容的外沿为基准
+    padding: .5em;
+}
+        </code></pre>
+    </section>
+    <section>
+        <h2>4.连字</h2>
+        <p class="ligat">fi ff fl ffi ffl st ct </p>
+        <span>加了连字的如下：</span>
+        <p class=" ligat ligatures">fi ff fl ffi ffl st ct</p>
+        <pre>
+font-variant-ligatures: common-ligatures discretionary-ligatures historical-ligatures;
+common-ligatures:激活这些连字，控制常见的连字。
+discretionary-ligatures:激活特定的连接，特定于字体的连字。
+historical-ligatures:激活连字，控制历史上使用的连字。
+        </pre>
+    </section>
+    <section>
+        <h2>5.华丽的&字符</h2>
+        <p>有意思？</p>
+    </section>
+    <section>
+        <h2>6.自定义下划线</h2>
+        <div class="underlines">
+            <p><span class="underline1">xdghhj xcebibxc cgebiucg xceghui </span></p>
+            <p><span class="underline2">xdghhj xcebibxc cgebiucg xceghui </span></p>
+            <p><span class="underline3">xdghhj xcebibxc cgebiucg xceghui </span></p>
+        </div>
+        <pre>
+.underline1{
+    background: linear-gradient(grey, grey) no-repeat;
+    background-size: 100% 1px;
+    background-position: 0 0.9em; // 位置调整，要根据行高协调
+    text-shadow: .1em 0 white, -.1em 0 white; // 为了消除有些长的字符，比如g这样的，下半部分被截断
+}
+.underline2 {
+    background: linear-gradient(90deg, gray 66%, transparent 0) repeat-x;
+    background-size: .2em 2px;
+    background-position: 0 1em;
+}
+        </pre>
+    </section>
+    <section>
+        <h2>7.现实中的文字效果</h2>
+        <article>
+            <h3>(1)凸版印刷效果</h3>
+            <p class="letterpress1">只要文字不是黑色，背景不是纯黑或纯白就可以使用这种特效。浅色背景上使用深色字体是，在文字底部加上浅色投影</p>
+            <p class="letterpress2">凸显效果主要是由色差、text-shadow体现的。text-shadow:x轴位移，y轴位移，阴影模糊半径，颜色。深色背景使用浅色字体，在文字顶部加深色投影</p>
+        </article>
+        <article>
+            <h3>(2)空心字效果</h3>
+            <p class="stroked1">使用text-shadow实现,多重投影.描边宽度大时会很奇怪，比如3px时</p>
+            <p class="stroked2"><svg overflow="visible" width="2em" height="1.2em"><use xlink:href="#css" />
+                <text id="css" y="1em">使用SVG实现。</text>
+            </svg></p>
+            <p>svg ，stroke ：定义一条直线，stroke-linejoin：描边转角的表现形式（miter-直角，round-圆角，bevel-拐一下的直角）</p>
+        </article>
+        <article>
+            <h3>(3)文字外发光效果</h3>
+            <p class="glow">光，text-shadow: 0 0 .1em, 0 0 .3em;</p>
+        </article>
+        <article>
+            <h3>(4)文字凸起效果</h3>
+            <p class="extruded extruded1">使用一长串的累加的投影，不设置模糊，并以1px的跨度逐渐错开（y轴），使颜色逐渐变暗，然后在底部加一层强烈模糊的暗投影，从而模拟完全的立体效果</p>
+            <p class="extruded extruded2">使用一长串的累加的投影，不设置模糊，并以1px的跨度逐渐错开（x轴，y轴），颜色始终为黑色</p>
+        </article>
+    </section>
+    <section>
+        <h2>8.环形文字</h2>
+        <div class="circular">借助SVG实现,svg看不懂</div>
+    </section>
+<script src="index.js"></script>
+</body>
+</html>

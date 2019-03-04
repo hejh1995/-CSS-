@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>7.结构与布局</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+<section>
+    <h2>1.自适应内部元素</h2>
+    <p>希望宽度也可以自适应</p>
+    <p>(1)浮动元素的宽度由内部内容决定；
+        （2）display:inline-block，会根据内部元素的宽度决定容器的宽度，但是和我们要的结构还是不一样哦
+        （3）width: min-content,解析容器内不可断行元素的宽度</p>
+    <figure class="sizing">
+        <img src="images/1.png/">
+        <figcaption>使用 figcaption 为 figure(规定独立的流内容) 添加标题</figcaption>
+    </figure>
+</section>
+<section>
+    <h2>2.精确控制表格列宽</h2>
+    <article class="table-width">
+        <h1>table-layout: auto</h1>
+        <div>
+            <table>
+                <tr>
+                    <td>好多个表格</td>
+                    <td>.table-width {
+                        width: 500px;
+                        margin: 2em;
+                        background: white;
+                        }</td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <td>border-collapse 属性设置表格的边框是否被合并为一个单一的边框</td>
+                    <td>.table-width table {
+                        border-collapse: collapse;
+                        margin-bottom: 1em;
+                        width: 100%;
+                        }
+                        td {
+                        border: 1px solid #aaa;
+                        }</td>
+                </tr>
+                <tr>
+                    <td>tableLayout 属性用来显示表格单元格、行、列的算法规则。</td>
+                    <td> .table-fixed table{
+                        table-layout: fixed;
+                        }
+                        </td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <td style="width: 1000px">我设置了宽度为1000px</td>
+                    <td style="width: 2000px">我设置了宽度为2000px</td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td>white-space 属性设置如何处理元素内的空白。
+ text-overflow 属性规定当文本溢出包含元素时发生的事情。</td>
+                    <td class="preformatted"><code>{ white-space: pre; text-overflow: ellipsis; overflow: hidden; }</code></td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <td>图片的宽度有点大哦</td>
+                    <td><img src="images/1.png" /></td>
+                </tr>
+            </table>
+        </div>
+    </article>
+
+    <article class="table-width table-fixed">
+        <h1>table-layout: fixed</h1>
+        <div></div>
+    </article>
+    <pre>（1）white-space 属性设置如何处理元素内的空白。normal（默认，空白会被浏览器忽略）。
+pre（空白会被浏览器保留，其行为方式类似 pre 标签）。
+nowrap（文本不会换行，直到遇到 br 标签为止）。
+pre-wrap （保留空白符序列，但是正常地进行换行）。
+pre-line （合并空白符序列，但是保留换行符）。
+（2）text-overflow 属性规定当文本溢出包含元素时发生的事情。
+ clip（修剪文本）。
+ellipsis （显示省略符号来代表被修剪的文本）。
+string （使用给定的字符串来代表被修剪的文本）。
+（3）border-collapse 属性设置表格的边框是否被合并为一个单一的边框,collapse(合并为一个)，separent（边框被分开，默认值）
+（4）tableLayout 属性用来显示表格单元格、行、列的算法规则。
+对table元素或其他display：table样式的元素添加这个属性，为了确保这个属性发挥作用，需要给这些表格元素指定一个宽度（哪怕是100%）
+automatic（默认。列宽度由单元格内容设定。）
+fixed （列宽由表格宽度和列宽度设定。
+如果不设定，则各列的宽度将是平均分配的，overflow和text-overflow属性都可以正常生效的，如果overflow的值为visible，表单的内容可能会溢出）
+inherit （规定应该从父元素继承 table-layout 属性的值。）</pre>
+</section>
+<section>
+    <h2>3.根据兄弟元素的数量来设置样式</h2>
+    <ul class="palette">
+        <li>
+            <div class="color-options">
+                <a class="add" href="#">add</a>
+                <a class="delete" href="#">delete</a>
+            </div>
+        </li>
+    </ul>
+    <pre>
+        dom.cloneNode 拷贝节点;
+        dom.nextSibling 获取下一个同胞元素
+        rem , 根据页面的根节点的字体大小进行转变的单位。
+        p ~ ul,所有相同的父元素中位于p元素之后的所有ul元素。
+        .palette li:first-child:nth-last-child(n+4)，正好有n+4个列表项的列表中的第一个列表项。
+        .palette li:first-child:nth-last-child(n+4) ~ li，正好有n+4个列表项的列表中的第一个列表项 后面的所有的li元素
+        .palette li:only-child，第一个元素。
+        flex 布局。
+    </pre>
+</section>
+<section class="fuid-fixed">
+    <header>
+        <h2>4.满幅的背景 ，定宽的内容</h2>
+    </header>
+    <section>
+        <h3>Heading</h3>
+        <p>为每个部分都设置（一起设置），padding: 1em calc(50% - 350px);元素的作用padding 就是50%-350px，元素的宽度被固定为700px</p>
+    </section>
+    <section>
+        <h3>Another heading</h3>
+        <p>为每个部分都设置（一起设置），padding: 1em calc(50% - 350px);元素的作用padding 就是50%-350px，元素的宽度被固定为700px</p>
+    </section>
+    <footer>
+        <p>&copy; 2015 Lea Verou (j/k, feel free to use wherever)</p>
+        <p>Consectetur et t-bone pork loin. Tri-tip cupim in, spare ribs velit exercitation in. Tempor cillum fugiat, nisi leberkas reprehenderit anim laboris proident cow. Eu fatback kevin sint, ad shoulder in venison picanha. Sausage drumstick capicola, culpa boudin pork belly minim aute ipsum biltong picanha venison nulla adipisicing.</p>
+    </footer>
+</section>
+<section>
+    <h2>5.垂直居中</h2>
+    <h3>(1)使用决定定位和位移</h3>
+    <article class="vertical-center1">
+        <div><p>position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);</p>
+            <p>绝对定位会脱离文档流；如果需要剧中的元素的高度超过视口，顶部就会被视口裁切掉；有些浏览器会导致元素的显示有一些模糊，可以使用transform-style：preserve-3d修复，但未来也不一定就没有问题</p>
+        </div>
+    </article>
+    <h3>(2)使用视口单位vh</h3>
+    <article class="vertical-center2">
+        <div><p>margin: 50vh auto 0;
+            transform: translateY(-50%);</p>
+            <p>视口的不好演示哦，只适合在视口中居中的场景。</p>
+        </div>
+    </article>
+    <h3>(3)使用flex</h3>
+    <article class="vertical-center3">
+        <div><p>父元素设置如下时，子元素垂直居中。display: flex;
+            align-items: center;
+            justify-content: center;</p>
+        </div>
+    </article>
+</section>
+<section>
+    <h2>6.紧贴底部的页脚</h2>
+    <article class="sticky-footer1 sticky-footer">
+        <header>
+            <h3>(1)使用min-height 控制中间的最小高度</h3>
+        </header>
+        <main>
+            <input type="checkbox" id="contents" /><label for="contents">Toggle contents</label>
+            <article id="contents-detail">
+                <p>内容部分设置最小高度，所以当内容很少时，页脚可以固定在底部</p>
+                <p>min-height: calc(100vh - 5em - 7em);5em 是页头的高度，7em是页脚的高度</p>
+                <p>它要求我们计算页脚、页头的高度，一但他们中的内容变化，可能引起高度的变化，就需要重新改变min-height的值。</p>
+            </article>
+        </main>
+        <footer>
+            <p>© 2015 No rights reserved.</p>
+            <p>Made with ♥ by an anonymous pastafarian.</p>
+        </footer>
+    </article>
+    <article>
+        <article class="sticky-footer2 sticky-footer">
+            <header>
+                <h3>(2)flex布局</h3>
+            </header>
+            <main>
+                <article id="contents-detail">
+                    <p>我们所期望的是，页头和页脚的高度由内部因素决定，而内容区块的高度自动伸展并沾满所有的可用空间</p>
+                    <p></p>
+                    <p></p>
+                </article>
+            </main>
+            <footer>
+                <p>© 2015 No rights reserved.</p>
+                <p>Made with ♥ by an anonymous pastafarian.</p>
+            </footer>
+        </article>
+    </article>
+</section>
+
+<script src="index.js"></script>
+</body>
+</html>

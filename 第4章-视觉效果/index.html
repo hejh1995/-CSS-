@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>4.视觉效果</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <section>
+        <h2>1.单侧投影</h2>
+        <div class="div sided-shadow0">
+            <p>单侧投影：</p>
+            <p>box-shadow: 0 5px 1px -4px black;</p>
+            <p>box-shadow: 水平偏移 垂直偏移 模糊度 扩大/缩小投影的尺寸 投影颜色</p>
+        </div>
+        <div class="div sided-shadow1">
+            <p>领边投影：</p>
+            <p>box-shadow: 6px 6px 6px -3px black;</p>
+        </div>
+        <div class="div sided-shadow2">
+            <p>双侧投影：</p>
+            <p>box-shadow: 8px 0 5px -5px black,
+                -8px 0 5px -5px black;</p>
+        </div>
+    </section>
+    <section>
+        <h2>2.不规则投影</h2>
+        <div class="div-anormaly speech">会话框</div>
+        <div class="div-anormaly dotted">虚线框</div>
+        <div class="div-anormaly cutout">切角</div>
+        <P>filter: drop-shadow 给图像设置一个阴影效果，阴影合成在图像下面。 filter: drop-shadow(水平偏移量，垂直偏移量，模糊度，阴影扩张和变大（大多浏览器不支持）， 颜色)</P>
+    </section>
+    <section>
+        <h2>3.染色效果</h2>
+        <article>
+            <img src="2.png" class="color-tint-filter"></img>
+            <p>filter: sepia() saturate(4) hue-rotate(295deg)。</p>
+            <p>可以调节不同的值得到不同的结果。</p>
+            <p>sepia() 将图像转换成深褐色，默认值伪0，值在0% -100% 之间，定义转换的比例，0表示无变化，100%表示完全是深褐色。</p>
+            <p>saturate() 转换图像的饱和度，0表示完全不饱和。100% 则图像无变化，默认值为1。</p>
+            <p>hue-rotate()该图像定义色相旋转，超过360deg，相当于又绕了一圈，0deg是默认值，表示图像无变化，表示图像会被调整的色环角度值。</p>
+        </article>
+        <aside>
+            <img src="2.png" class="color-tint"></img>
+            <p>好像兼容性不好，没有显示出效果----</p>
+            <p>hsl 和 hsla。h----色调，s----饱和度，l-----亮度，a---- 透明度</p>
+            <pre>background-blend-mode:定义了背景层的混合模式，取值：
+                luminosity : 亮度模式，会保存上层元素的hsl亮度信息，并哦哦那个它的下层西区色相和饱和度信息
+                multiply : 正片叠底模式，
+                screen : 滤色模式，
+                overlay : 叠加模式，
+                darken : 变暗模式，
+                lighten : 变亮模式，
+                color-dodge : 颜色减淡模式，
+                saturation : 饱和度模式，
+                color : 颜色模式</pre>
+        </aside>
+    </section>
+    <section>
+        <h2>4.毛玻璃效果</h2>
+        <article class="frosted-glass">
+            <div class="main">
+                <blockquote>
+                    <p>blockquote标签定义块引用，块引用拥有自己的空间。</p>
+                    <p>filter: blur(20px);,blur 给图像设置高斯模糊，默认值为0，可设置css长度值，但不接受%</p>
+                    <p>大背景是大容器的，和main 的伪元素的背景图片一样，但是伪元素的图片做了高斯模糊处理</p>
+                    <p>为了在接近边缘的地方不要逐渐消退，让伪元素的尺寸相对宿主元素的尺寸再外扩一些，margin：-20px；但是这样又一圈模糊是超出mian容器的，所以对main容器设置overflow：hidden；</p>
+                    <footer><cite>cite标签，表示引用</cite></footer>
+                </blockquote>
+            </div>
+        </article>
+    </section>
+    <section>
+        <h2>5.折角效果</h2>
+        <article class="folded-corner">
+            <p>
+                linear-gradient(point/angle,stop,stop)
+                起始点可以设置百分比，像素，top/center/right,top/center/bottom
+            </p>
+            <p>得到折角的时候，直角边为2em，剪小角的时候，斜边的高是2em，所以切的多了，改变切角的时候，2/根号2</p>
+        </article>
+        <article class="folded-corner1">
+            <P>折角不是45度折角时，折角需要旋转，因为无法旋转背景，所以使用伪元素</P>
+            <p>折角，长宽要根据切角的值（高）计算</p>
+            <p>折角切下后，需要旋转和移动，旋转的角度是180-切角的角度绝对值，旋转点为右下角。移动的距离是，height-width；</p>
+        </article>
+    </section>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3D旋转盒子</title>
+</head>
+<style>
+    .box {
+        text-align: center;
+        width: 200px;
+        height: 200px;
+        position: relative;
+        margin: 150px auto;
+        transform: perspective(700px) rotateX(0deg) rotateY(0deg);
+        transform-style: preserve-3d;
+        transition: 5s all ease;
+    }
+    .box:active {
+        transform: perspective(700px) rotateX(360deg) rotateY(180deg);
+        /*transform 的时候，不变的量要写出来保持一样，要不然会变为初始值或者默认值。perspective可以拿出来单用，查查*/
+    }
+    .box div {
+        width: 198px;
+        height: 198px;
+        border: 1px solid #000;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: rgba(0,255,0,0.5);
+    }
+    .box .front {
+        transform: translateZ(100px);
+    }
+    .box .back {
+        transform: translateZ(-100px);
+    }
+    .box .top {
+        /*先移到前面，所以translateZ(100px)要写在前面*/
+        transform: rotateX(90deg) translateZ(100px);
+    }
+    .box .down {
+        transform: rotateX(-90deg) translateZ(100px);
+    }
+    .box .left {
+        transform: rotateY(-90deg) translateZ(100px);
+    }
+    .box .right {
+        transform: rotateY(90deg) translateZ(100px);
+    }
+</style>
+<body>
+<div class="box">
+    <div class="front">前</div>
+    <div class="back">后</div>
+    <div class="top">上</div>
+    <div class="down">下</div>
+    <div class="left">左</div>
+    <div class="right">右</div>
+</div>
+</body>
+</html>

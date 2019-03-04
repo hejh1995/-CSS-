@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>2-背景与边框</title>
+    <link rel="stylesheet" href="index.css" media="screen">
+</head>
+<body>
+    <section>
+        <h2>1.半透明边框</h2>
+        <div class="div semiTransparent"></div>
+        <p> 设置透明 /// border: 10px solid hsla(0,0%,100%,.5);<br>
+            设置背景的开始位置,默认为border-box ///
+            background-clip: padding-box;</p>
+    </section>
+    <section>
+        <h2>2.多重边框</h2>
+        <div class="div multiple1"></div>
+        <p>box-shadow  不占用布局空间，不影响鼠标事件。 box-shadow: 0 0 0 10px #ffdcee, 0 0 0 15px #fbaaff, 0 2px 5px 30px rgba(0,0,0,0.6);</p>
+        <div class="div multiple2"></div>
+        <p>outline 也不占用布局空间，只适合两层边框的。border: 20px solid #fdfff0; outline: 15px solid #ffdcee;</p>
+    </section>
+    <section>
+        <h2>3.灵活的背景定位</h2>
+        <div class="div extend-bg-position1"></div>
+        <p>background-position: right 20px bottom 10px</p>
+        <div class="div extend-bg-position2"></div>
+        <p>padding: 10px; /// packground-origin ：conten-box</p>
+        <div class="div extend-bg-position3"></div>
+        <p> background-position: calc(100% - 20px) calc(100% - 10px) |||| calc 中间的-号两边要有空格</p>
+    </section>
+    <section>
+        <h2>4.边框内圆角</h2>
+        <div class="div inner-rounding">
+            <p>border-radius 产生圆角 ，边框不是圆角，外层outline 设置后，圆角和边框间有空袭，用box-shadow 填充，它的大小设置为圆角的一般比较好</p>
+            <p>border-radius: .8em;<br>
+                box-shadow: 0 0 0 0.4em pink;<br>
+                outline: .6em solid pink;</p>
+        </div>
+    </section>
+    <section>
+        <h2>5.条纹背景</h2>
+        <article>
+            <h3>横向条纹</h3>
+            <div class="div horizontal-stripes"></div>
+            <p>background: linear-gradient(#ffeaf5 33.3%, #e7b0ff 0 , #e7b0ff 66.6%, #fff8cf 0);<br>
+                background-size: 100% 45px;</p>
+            <p>liner-gradient 本来是有渐变的，但是上面这样设置就没有渐变了</p>
+            <p>background: linear-gradient(red, green 40px, orange 80px); red 向40px 处绿色渐变，然后向80px处橙色渐变</p>
+        </article>
+        <article>
+            <h3>垂直条纹</h3>
+            <div class="div vertical-stripes"></div>
+            <p>background: linear-gradient(to right, #ffeaf5 50%, #e7b0ff 0);<br>
+                background-size: 30px 100%;</p>
+            <p>to right ，从左向右渐变</p>
+        </article>
+        <article>
+            <h3>斜向条纹</h3>
+            <div class="div diagonal-stripes"></div>
+            <p>background: repeating-linear-gradient(45deg, #e7b0ff 0, #e7b0ff 15px, #ffeaf5 0,#ffeaf5 30px);</p>
+            <p>repeating-linear-gradient 重复渐变</p>
+        </article>
+        <article>
+            <h3>灵活的同色系条纹</h3>
+            <div class="div subtle-stripes"></div>
+            <p>border: 1em solid transparent;<br>
+                background: #ff1318;<br>
+                background-image: repeating-linear-gradient(30deg, hsla(0,0%,100%,.3), hsla(0,0%,100%,.3) 15px, transparent 0 , transparent 30px);</p>
+        </article>
+    </section>
+    <section>
+        <h2>6.复杂的背景图案</h2>
+    </section>
+    <section>
+        <h2>7.伪随记背景</h2>
+        <div class="div cicada-stripes"></div>
+        <p>使用质数，加强随记感</p>
+    </section>
+    <section>
+        <h2>8.连续的图像边框</h2>
+        <article>
+            <h3>连续的图像边框</h3>
+            <div class="div continuous-img">
+                <p>border: 1em solid transparent;<br>
+                    background: linear-gradient(white,white) padding-box,<br>
+                    url(images/2.png) border-box 0 0 / cover;</p>
+                <p>设置了两张背景图片，一个白色，一个是图片，白色的从 background-clip： padding-box 开始， 图片从border-box 开始</p>
+            </div>
+        </article>
+        <article>
+            <h3>老式信封样式的边框</h3>
+            <div class="div vitage-envelop">
+                <p> background: linear-gradient(white, white) padding-box,<br>
+                    repeating-linear-gradient(-45deg, red 0, red 12.5%, transparent 0,
+                    transparent 25%, #58a 0, #58a 37.5%, transparent 0, transparent 50%) 0 / 5em 5em;</p>
+            </div>
+        </article>
+        <article>
+            <h3>创建蚂蚁行军效果</h3>
+            <div class="div marching-ants">采用了动画</div>
+        </article>
+</body>
+</html>

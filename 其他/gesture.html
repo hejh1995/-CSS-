@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>手势</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+
+    <style>
+        body {height:2000px;}
+        .box {width:200px; height:200px; background:#CCC; border:1px solid black;
+            line-height:200px; text-align:center; font-size:40px;margin-bottom: 50px;
+            transform: rotate(0deg)}
+    </style>
+    <script>
+        function fnAng(touch1, touch2) {
+            const x = touch1.clientX - touch2.clientX;
+            const y = touch1.clientY- touch2.clientY;
+            return Math.atan2(y, x)*180/Math.PI;
+        }
+        function fnDiatance(touch1, touch2) {
+            return Math.sqrt(Math.pow(touch1.clientX - touch2.clientX, 2), Math.pow(touch1.clientY - touch2.clientY, 2));
+        }
+        window.onload = function () {
+            const scaleDom = document.querySelector('.scale');
+            let dis1,dis2;
+            let scale=1.0,old_scale;
+            scaleDom.addEventListener('touchstart', function (ev) {
+                if (ev.targetTouches.length >= 2) {
+                    dis1 = fnDiatance(ev.targetTouches[0], ev.targetTouches[1]);
+                    old_scale = scale;
+                }
+            },false);
+            scaleDom.addEventListener('touchmove', function (ev) {
+                if (ev.targetTouches.length >= 2) {
+                    dis2 = fnDiatance(ev.targetTouches[0], ev.targetTouches[1]);
+                    scale = old_scale*dis2/dis1;
+                    console.log(scale);
+                    scaleDom.style.transform = `scale(${scale})`;
+                }
+            },false);
+            let ang1,ang2;
+            let rotate = 0, old_rotate;
+            const rotateDom = document.querySelector('.rotate');
+            console.log(rotateDom);
+            rotateDom.addEventListener('touchstart', function (ev) {
+                if (ev.targetTouches.length >= 2) {
+                    ang1 = fnAng(ev.targetTouches[0], ev.targetTouches[1]);
+                    old_rotate = rotate;
+                }
+            }, false);
+            // 一定要写false，组织冒泡/
+            rotateDom.addEventListener('touchmove', function (ev) {
+                if (ev.targetTouches.length >= 2) {
+                    ang2 = fnAng(ev.targetTouches[0], ev.targetTouches[1]);
+                    rotate = ang2 - ang1;
+                    // ang=old_ang+ang2-ang1;
+                    // alert(ang2,'222',ang1, '111', rotate);
+                    rotateDom.style.transform = `rotate(${rotate}deg)`;
+                }
+            }, false)
+        }
+    </script>
+</head>
+<body>
+    <div class="box rotate">rotate</div>
+    <div class="box scale">scale</div>
+</body>
+</html>

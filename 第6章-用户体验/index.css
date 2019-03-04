@@ -1,0 +1,176 @@
+pre {
+    font-size: 1.3em;
+    line-height: 1.5;
+    background: hsl(20,50%,95%);
+    background-image: linear-gradient(rgba(120,0,0,.1) 50%, transparent 0);
+    background-size: auto 3em;
+    background-origin: content-box;
+    padding: .5em;
+}
+:disabled ,[aria-disabled="true"], [disabled] {
+    cursor: not-allowed;
+}
+.hit-area1 {
+    padding: .3em .5em;
+    border: 10px solid transparent;
+    background: pink;
+    background-clip: padding-box;
+    box-shadow:0 0 0 1px black inset;
+    cursor: pointer;
+}
+.hit-area2 {
+    position: relative;
+    background: pink;
+    padding: .3em .5em;
+    border: 1px solid black;
+    cursor: alias;
+}
+.hit-area2::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    bottom: -10px;
+    left: -10px;
+}
+input[type="checkbox"] {
+    position: absolute;
+    /*对于绝对定位的元素，这个属性定义一个剪裁矩形，在矩形内的内容可见。这样可以隐藏元素*/
+    clip: rect(0,0,0,0);
+}
+input+ label {
+    font: 150%/1.6 sans-serif;
+}
+input[type="checkbox"] + label::before{
+    content: '\a0';
+    display: inline-block;
+    width: .8em;
+    height: .8em;
+    margin-right: .2em;
+    border-radius: .2em;
+    background: silver;
+    /*用于定义块级元素中第一个内容行的缩进*/
+    text-indent: .15em;
+    line-height: .65;
+}
+input[type="checkbox"]:checked + label::before {
+    content: '\2713';
+    background: yellowgreen;
+}
+input[type="checkbox"]:focus + label::before {
+    box-shadow: 0 0 .1em .1em #5588aa;
+}
+input[type="checkbox"]:disabled + label::before {
+    background: gray;
+    color: #555;
+    cursor: not-allowed;
+}
+#awesome5 + label {
+    display: inline-block;
+    padding: .35em .5em .2em;
+    background:red;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: .3em;
+    box-shadow: 0 1px white inset;
+    text-align: center;
+    cursor: pointer;
+}
+#awesome5:checked + label ,#awesome5:active + label{
+    box-shadow: .04em .1em .2em rgba(0,0,0,.6) inset;
+    border-color: rgba(0,0,0,.3);
+    background: green;
+}
+/*下面两个都是为了取消前面的样式的*/
+#awesome5+label::before {
+    display: none;
+}
+#awesome5:checked +label::before {
+    display: none;
+}
+.lightbox-container {
+    position: relative;
+}
+.lightbox {
+    position: absolute;
+    left: 50%;
+    margin: -200px;
+    box-shadow: 0 0 0 50px rgba(0,0,0,.8);
+}
+#modal::backdrop {
+    background: rgba(0,0,0,.8);
+}
+.deemphasizing {
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 1;
+    width: 10em;
+    padding: 2em;
+    margin: -5em;
+    border: 1px solid silver;
+    border-radius: .5em;
+    box-shadow: 1 .2em .5em rgba(0,0,0,.5), 0 0 0 100vmax rgba(0,0,0,.2);
+}
+.deemphasizing:not([open]) {
+    display: none;
+}
+/*.deemphasizing-main {*/
+    /*transition: .6s;*/
+/*}*/
+.deemphasizing-main.de-emphasized {
+    -webkit-filter: blur(3px);
+    filter: blur(3px);
+}
+.scroll-hints {
+    display: inline-block;
+    overflow: auto;
+    height: 15em;
+    border: 1px solid silver;
+    padding: .3em .5em;
+    /*list-style: none;*/
+    margin-top: 2em;
+    line-height: 2em;
+    /*font: 100 200%/1.6 'Frutiger LT Std', sans-serif;*/
+    background: linear-gradient(white 15px, hsla(235, 100%, 66%, 0)) 0 0 / 100% 50px,
+radial-gradient(at top, rgba(0,0,0,.2), transparent 70%) 0 0 /100% 15px,
+linear-gradient(to top, white 15px, hsla(0,0%,100%,0)) bottom / 100% 50px,
+radial-gradient(at bottom, rgba(0,0,0,.2),transparent 70%) bottom / 100% 15px;
+    background-repeat: no-repeat;
+    background-attachment: local, scroll, local, scroll;
+    margin-top: 30px;
+
+}
+.image-slider {
+    position: relative;
+    display: inline-block;
+}
+.image-slider__before1 {
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    resize: horizontal;
+}
+.image-slider img {
+    display: block;
+    user-focus: none;
+}
+.image-slider__before {
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+}
+.image-slider input {
+    position: absolute;
+    left: 0;
+    bottom: 10px;
+    width: 50%;
+    transform: scale(2);
+    transform-origin: left bottom;
+    margin: 0;
+    border: 0;
+    filter: contrast(.5);
+    mix-blend-mode: luminosity;
+}
